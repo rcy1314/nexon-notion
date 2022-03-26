@@ -57,9 +57,18 @@ export interface CanonicalPageMap {
 // All metadata (Notion Properties) goes here.
 export interface CanonicalPageData {
   pageID: string
-  lastEditedTime: Date
-  createdTime: Date
   title: string
+  createdTime: Date
+  lastEditedTime: Date
+  cover: string | null
+}
+
+export interface CanonicalPageDataSerialized {
+  pageID: string
+  title: string
+  createdTime: string
+  lastEditedTime: string
+  cover: string | null
 }
 
 export interface PageUrlOverridesMap {

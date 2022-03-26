@@ -17,9 +17,9 @@ module.exports = {
   author: 'Feng Kaiyu',
 
   // open graph metadata (optional)
-  description: 'Code for Good.',
+  description: '一个有技术和思考的角落',
   socialImageTitle: 'Feng Kaiyu',
-  socialImageSubtitle: '一个有技术和思考的角落',
+  socialImageSubtitle: 'Code for Good.',
 
   // social usernames (optional)
   twitter: 'FKYnJYQ',

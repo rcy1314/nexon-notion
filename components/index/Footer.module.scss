@@ -1,0 +1,71 @@
+$red: #a80039;
+$orange: #b6553a;
+$yellow: #a3ce39;
+$green: #00926d;
+$blue: #296974;
+$purple: #aa45ff;
+
+.bar {
+  div {
+    position: relative;
+    div {
+      content: '';
+      border: #0000 0.25rem solid;
+      position: absolute;
+      right: -0.25rem;
+      z-index: 10;
+    }
+  }
+  div:nth-child(6n + 1) {
+    $current: $red;
+    background-color: $current;
+    div {
+      background-color: #0000;
+      border-top-color: $current;
+    }
+  }
+  div:nth-child(6n + 3) {
+    $current: $orange;
+    background-color: $current;
+    div {
+      background-color: #0000;
+      border-top-color: $current;
+    }
+  }
+  div:nth-child(6n + 2) {
+    $current: $yellow;
+    background-color: $current;
+    div {
+      background-color: #0000;
+      border-top-color: $current;
+    }
+  }
+  div:nth-child(6n + 4) {
+    $current: $green;
+    background-color: $current;
+    div {
+      background-color: #0000;
+      border-top-color: $current;
+    }
+  }
+  div:nth-child(6n + 5) {
+    $current: $blue;
+    background-color: $current;
+    div {
+      background-color: #0000;
+      border-top-color: $current;
+    }
+  }
+  div:nth-child(6n) {
+    $current: $purple;
+    background-color: $current;
+    div {
+      background-color: #0000;
+      border-top-color: $current;
+    }
+  }
+}
+
+.content {
+  //background-color: #33333333;
+}

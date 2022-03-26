@@ -37,7 +37,7 @@ export default class MyDocument extends Document {
             <link rel='manifest' href='/manifest.json' />
           </Head>
 
-          <body>
+          <body className="bg-gray-100 dark:bg-black dark:text-white">
             <script src='noflash.js' />
 
             <Main />

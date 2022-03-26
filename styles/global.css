@@ -14,6 +14,32 @@
     monospace;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 100vh;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /*background: #edf2f7;*/
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border: 3px solid #edf2f7;
+  transition: ease-in-out 500ms all;
+  border-radius: 100vh;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+  border-radius: 100vh;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -32,7 +58,6 @@ body {
   font-family: var(--base-font-family);
 }
 
-
 .utterances {
   max-width: 100% !important;
 }
@@ -48,4 +73,8 @@ body {
 .static-tweet-emoji {
   height: 1.2em !important;
   width: 1.2em !important;
+}
+
+code {
+  font-family: var(--monospace-font-family) !important;
 }

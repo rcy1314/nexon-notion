@@ -6,6 +6,7 @@ import { includeNotionIdInUrls, overrideCreatedTime, overrideLastEditedTime } fr
 import { notion } from './notion'
 import { getCanonicalPageId } from './get-canonical-page-id'
 import { getPagePropertyExtend } from './get-page-property'
+import { PageBlock } from 'notion-types'
 
 const uuid = !!includeNotionIdInUrls
 
@@ -34,7 +35,23 @@ export async function getAllPagesImpl(
         uuid
       })
 
-      const block = recordMap.block[pageId]?.value
+      const block = recordMap.block[pageId]?.value as PageBlock
+
+      // if the page contains a property `Draft` with value `true`,
+      // then it is a draft page and should not be included in the sitemap.
+      if (block) {
+        let draft = getPagePropertyExtend('Draft', block, recordMap)
+
+        console.log(draft)
+
+        if (draft) {
+          return map;
+        }
+      } 
+
+      // console.group(`Page "${pageId}"`)
+      // console.log(block)
+      // console.groupEnd()
 
       // Get Page Title
       const title = getBlockTitle(block, recordMap)
@@ -77,6 +94,9 @@ export async function getAllPagesImpl(
       if (!createdTime)
         createdTime = block?.created_time ? new Date(block.created_time) : null
 
+      // Get Page cover in `format.page_cover`
+      const pageCover = (block as PageBlock).format.page_cover || null
+
       // Insert SlugName instead of PageId.
       if (block) {
         let slugName = getPageProperty('SlugName', block, recordMap)
@@ -91,6 +111,7 @@ export async function getAllPagesImpl(
         lastEditedTime,
         createdTime,
         title,
+        cover: pageCover,
       }
 
       console.log(canonicalPageData)

@@ -10,12 +10,12 @@
 .notion {
   --notion-max-width: 720px;
   --notion-header-height: 54px;
-  @apply bg-gray-100;
+  @apply: bg-gray-100;
   font-family: var(--base-font-family);
 }
 
-.dark-mode .notion {
-  @apply bg-black;
+.dark .notion {
+  @apply: bg-black;
 }
 
 .notion-page {
@@ -96,26 +96,26 @@
 
 .notion-collection-card {
   overflow: visible;
-  @apply bg-white transition-all duration-500 ease-in-out;
+  @apply: bg-white transition-all duration-500 ease-in-out;
 }
 
-.dark-mode .notion-collection-card-body {
-  @apply bg-blue-800;
+.dark .notion-collection-card-body {
+  @apply: bg-blue-800;
 }
 
-.dark-mode .notion-collection-card-cover .notion-collection-card-cover-empty {
-  @apply bg-gray-700;
+.dark .notion-collection-card-cover .notion-collection-card-cover-empty {
+  @apply: bg-gray-700;
 }
 
 .notion-collection-card-cover {
   border-radius: 5px 5px 0px 0px ;
   overflow: hidden;
-  @apply bg-white transition-all duration-500 ease-in-out;
+  @apply: bg-white transition-all duration-500 ease-in-out;
   /*box-shadow: 2px 2px 8px 4px rgba(15, 15, 15, 0.1);*/
 }
 
 .notion-collection-card-cover .notion-collection-card-cover-empty {
-  @apply bg-white;
+  @apply: bg-white;
 }
 
 .notion-collection-card:hover .notion-collection-card-cover {
@@ -128,7 +128,7 @@
 
 .notion-collection-card:hover {
   background: none;
-  @apply bg-white dark:bg-blue-700;
+  @apply: bg-white dark:bg-blue-700;
   /*@apply nm-flat-white-lg;*/
 }
 
@@ -342,15 +342,15 @@
   );
 }
 
-.dark-mode .notion-red_background,
-.dark-mode .notion-pink_background,
-.dark-mode .notion-blue_background,
-.dark-mode .notion-purple_background,
-.dark-mode .notion-teal_background,
-.dark-mode .notion-yellow_background,
-.dark-mode .notion-orange_background,
-.dark-mode .notion-brown_background,
-.dark-mode .notion-gray_background {
+.dark .notion-red_background,
+.dark .notion-pink_background,
+.dark .notion-blue_background,
+.dark .notion-purple_background,
+.dark .notion-teal_background,
+.dark .notion-yellow_background,
+.dark .notion-orange_background,
+.dark .notion-brown_background,
+.dark .notion-gray_background {
   padding: 0;
   margin: 0;
   border-radius: 0;
@@ -372,7 +372,7 @@
   backdrop-filter: saturate(180%) blur(16px);
 }
 
-.dark-mode .notion-header {
+.dark .notion-header {
   background: transparent;
   box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
   backdrop-filter: saturate(180%) blur(8px);

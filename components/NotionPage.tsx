@@ -89,7 +89,18 @@ export const NotionPage: React.FC<types.PageProps> = ({
   const isLiteMode = lite === 'true'
   const searchParams = new URLSearchParams(params)
 
-  const darkMode = useDarkMode(false, { classNameDark: 'dark-mode' })
+  const darkMode = useDarkMode(false, {
+    onChange: (state: boolean) => {
+      const htmlElement = document.documentElement;
+      if (state) {
+        htmlElement.classList.add('dark');
+        htmlElement.classList.remove('light');
+      } else {
+        htmlElement.classList.add('light');
+        htmlElement.classList.remove('dark');
+      }
+    }
+  })
 
   if (router.isFallback) {
     return <Loading />

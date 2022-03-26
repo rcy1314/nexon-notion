@@ -1,4 +1,5 @@
 import React from 'react'
+import { InferGetStaticPropsType } from 'next'
 import { domain } from 'lib/config'
 import { resolveNotionPage } from 'lib/resolve-notion-page'
 import { NotionPage } from 'components'
@@ -17,6 +18,8 @@ export const getStaticProps = async () => {
   }
 }
 
-export default function NotionDomainPage(props) {
+function Page(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return <NotionPage {...props} />
 }
+
+export default Page
