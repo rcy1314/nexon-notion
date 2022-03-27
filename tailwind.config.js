@@ -1,5 +1,13 @@
 const colors = require('tailwindcss/colors')
 
+// temporary fix, see https://github.com/tailwindlabs/tailwindcss/issues/4690#issuecomment-1046087220
+delete colors['lightBlue'];
+delete colors['warmGray'];
+delete colors['trueGray'];
+delete colors['coolGray'];
+delete colors['blueGray'];
+
+
 module.exports = {
   content: ["./**/*.{tsx,jsx,css}"],
   darkMode: 'class', // or 'media' or 'class'
