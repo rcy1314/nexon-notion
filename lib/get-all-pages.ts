@@ -44,7 +44,8 @@ export async function getAllPagesImpl(
 
         console.log(draft)
 
-        if (draft) {
+        if (draft === 'Yes') {
+          console.log(`${pageId} is a draft page and will not be included in the sitemap.`)
           return map;
         }
       } 
@@ -95,7 +96,7 @@ export async function getAllPagesImpl(
         createdTime = block?.created_time ? new Date(block.created_time) : null
 
       // Get Page cover in `format.page_cover`
-      const pageCover = (block as PageBlock).format.page_cover || null
+      const pageCover = (block as PageBlock).format?.page_cover || null
 
       // Insert SlugName instead of PageId.
       if (block) {
