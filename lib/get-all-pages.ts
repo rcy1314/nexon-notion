@@ -7,6 +7,7 @@ import { notion } from './notion'
 import { getCanonicalPageId } from './get-canonical-page-id'
 import { getPagePropertyExtend } from './get-page-property'
 import { PageBlock } from 'notion-types'
+import { mapNotionImageUrl } from './map-image-url'
 
 const uuid = !!includeNotionIdInUrls
 
@@ -96,7 +97,7 @@ export async function getAllPagesImpl(
         createdTime = block?.created_time ? new Date(block.created_time) : null
 
       // Get Page cover in `format.page_cover`
-      const pageCover = (block as PageBlock).format?.page_cover || null
+      const pageCover = mapNotionImageUrl((block as PageBlock).format?.page_cover, block) || null
 
       // Insert SlugName instead of PageId.
       if (block) {
@@ -143,3 +144,4 @@ export async function getAllPagesImpl(
     canonicalPageMap
   }
 }
+
