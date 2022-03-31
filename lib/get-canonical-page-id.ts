@@ -27,14 +27,12 @@ export function getCanonicalPageId(
 
     const block = recordMap.block[pageId]?.value
     if (block) {
-
-      let slugName = getPageProperty('SlugName', block, recordMap)
+      const slugName = getPageProperty('SlugName', block, recordMap) as string
       if (slugName) {
         ret = slugName
       }
     }
 
-    // console.log('getCanonicalPageId>getCanonicalPageId', ret)
     return ret
   }
 }

@@ -1,12 +1,24 @@
-// const isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV
 
 const withPlugins = require('next-compose-plugins')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 })
 
 module.exports = withPlugins([[withBundleAnalyzer]], {
+  staticPageGenerationTimeout: 3000,
   images: {
-    domains: ['pbs.twimg.com']
-  },
+    domains: [
+      'www.notion.so',
+      'notion.so',
+      'images.unsplash.com',
+      'pbs.twimg.com',
+      'abs.twimg.com',
+      'transitivebullsh.it',
+      'www.baidu.com'
+    ],
+    formats: ['image/avif', 'image/webp'],
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;"
+  }
 })

@@ -9,7 +9,7 @@ const Pagination: FunctionComponent<{
   return (
     <div className="flex justify-center mt-12">
       {Array(totalPaginations).fill(null).map((_, i) => {
-        let p = i + 1;
+        const p = i + 1;
         // TODO: default page to index
         return (
           <Link href={p === 1 ? '/pages/1/' : `/pages/${p}/`} key={p}>

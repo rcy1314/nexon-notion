@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import Link from 'next/link';
 import styles from './Footer.module.scss';
 import { author, github } from 'lib/config';

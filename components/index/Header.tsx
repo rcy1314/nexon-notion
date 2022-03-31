@@ -1,21 +1,17 @@
 import React, {
-  //useEffect,
   FunctionComponent,
-  useState,
 } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Header.module.scss';
-// import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import cn from 'classnames';
-import classnames from 'classnames/bind';
-import { name } from 'lib/config'
+// import classnames from 'classnames/bind';
+import { description } from 'lib/config'
 import useDarkMode from 'use-dark-mode'
-const cx = classnames.bind(styles);
 import profileImage from '../../public/images/profile.png'
 import darkIcon from '../../public/icons8-moon-and-stars-96.png'
 import lightIcon from '../../public/icons8-sun-96.png'
-import { socialImageSubtitle } from 'site.config';
+// const cx = classnames.bind(styles);
 
 const Header: FunctionComponent = () => {
   const darkMode = useDarkMode(false, {
@@ -48,11 +44,13 @@ const Header: FunctionComponent = () => {
               <Image
                 className={`borderCircle mr-2 dark:bg-grey-300`}
                 src={profileImage}
-                layout="responsive"
                 alt={'FKYnJYQ'}
+                placeholder="blur"
+                width={24}
+                height={24}
               /></div>
 
-            <div>{socialImageSubtitle}</div>
+            <div>{description}</div>
           </a>
         </Link>
       </div>
@@ -67,6 +65,7 @@ const Header: FunctionComponent = () => {
             width="24px"
             height="24px"
             layout="fixed"
+            placeholder="blur"
             alt="Sun"
             className="invert"
           ></Image>
@@ -76,6 +75,7 @@ const Header: FunctionComponent = () => {
             width="24px"
             height="24px"
             layout="fixed"
+            placeholder="blur"
             alt="Moon and Stars"
           ></Image>
         )}

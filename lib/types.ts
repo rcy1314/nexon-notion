@@ -1,4 +1,4 @@
-import { ExtendedRecordMap, PageMap } from 'notion-types'
+import { ExtendedRecordMap, PageMap, PreviewImage as NotionPreviewImage } from 'notion-types'
 
 export * from 'notion-types'
 
@@ -56,19 +56,19 @@ export interface CanonicalPageMap {
 
 // All metadata (Notion Properties) goes here.
 export interface CanonicalPageData {
-  pageID: string
+  pageId: string
   title: string
   createdTime: Date
   lastEditedTime: Date
-  cover: string | null
+  cover: [string, NotionPreviewImage] | null
 }
 
 export interface CanonicalPageDataSerialized {
-  pageID: string
+  pageId: string
   title: string
   createdTime: string
   lastEditedTime: string
-  cover: string | null
+  cover: [string, NotionPreviewImage] | null
 }
 
 export interface PageUrlOverridesMap {

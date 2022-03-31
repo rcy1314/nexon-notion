@@ -5,15 +5,16 @@ import * as types from './types'
 import { includeNotionIdInUrls, overrideCreatedTime, overrideLastEditedTime } from './config'
 import { notion } from './notion'
 import { getCanonicalPageId } from './get-canonical-page-id'
-import { getPagePropertyExtend } from './get-page-property'
 import { PageBlock } from 'notion-types'
-import { mapNotionImageUrl } from './map-image-url'
+import { mapImageUrl } from 'lib/map-image-url'
+import { getPreviewImageHelper } from 'lib/preview-images'
+import pMap from 'p-map'
 
 const uuid = !!includeNotionIdInUrls
 
-export const getAllPages = pMemoize(getAllPagesImpl, { maxAge: 60000 * 5 })
-// For testing use.
-// export const getAllPages = pMemoize(getAllPagesImpl, { maxAge: 1000 })
+export const getAllPages = pMemoize(getAllPagesImpl, {
+  cacheKey: (...args) => JSON.stringify(args)
+})
 
 export async function getAllPagesImpl(
   rootNotionPageId: string,
@@ -25,119 +26,113 @@ export async function getAllPagesImpl(
     notion.getPage.bind(notion)
   )
 
-  const canonicalPageMap = Object.keys(pageMap).reduce(
-    (map, pageId: string) => {
-      const recordMap = pageMap[pageId]
-      if (!recordMap) {
-        throw new Error(`Error loading page "${pageId}"`)
+  console.group(`async generate canonicalPageMap`)
+
+  const canonicalPageMap = (await pMap(Object.entries(pageMap), async ([pageId, recordMap]): Promise<null | [string, types.CanonicalPageData]> => {
+    let canonicalPageId = getCanonicalPageId(pageId, recordMap, {
+      uuid
+    })
+
+    const block = recordMap.block[pageId]?.value as PageBlock
+
+    // if the page contains a property `Draft` with value `true`,
+    // then it is a draft page and should not be included in the sitemap.
+    if (block) {
+      const draft = getPageProperty('Draft', block, recordMap)
+
+      if (draft === 'Yes') {
+        console.warn(`${pageId} is a draft page and will not be included in the sitemap.`)
+        return null;
       }
+    }
 
-      let canonicalPageId = getCanonicalPageId(pageId, recordMap, {
-        uuid
-      })
+    // Get Page Title
+    const title = getBlockTitle(block, recordMap)
 
-      const block = recordMap.block[pageId]?.value as PageBlock
-
-      // if the page contains a property `Draft` with value `true`,
-      // then it is a draft page and should not be included in the sitemap.
-      if (block) {
-        let draft = getPagePropertyExtend('Draft', block, recordMap)
-
-        console.log(draft)
-
-        if (draft === 'Yes') {
-          console.log(`${pageId} is a draft page and will not be included in the sitemap.`)
-          return map;
-        }
-      } 
-
-      // console.group(`Page "${pageId}"`)
-      // console.log(block)
-      // console.groupEnd()
-
-      // Get Page Title
-      const title = getBlockTitle(block, recordMap)
-
-      // Get Last Edited Time
-      let lastEditedTime: Date | null = null;
-      if (overrideLastEditedTime) {
-        let timestamp = "";
-        try {
-          timestamp = getPagePropertyExtend(overrideLastEditedTime, block, recordMap);
-        } catch (e) {
-          console.error(e);
-        }
-        lastEditedTime = new Date(timestamp);
-        // If it's invalidDate, set to null
-        if (isNaN(lastEditedTime.getTime())) {
-          console.log('overrideLastEditedTime:', overrideLastEditedTime, '. Invalid lastEditedTime: ', lastEditedTime);
-          lastEditedTime = null;
-        }
+    // Get Last Edited Time
+    let lastEditedTime: Date | null = null;
+    if (overrideLastEditedTime) {
+      let timestamp = NaN;
+      try {
+        timestamp = getPageProperty(overrideLastEditedTime, block, recordMap);
+      } catch (e) {
+        console.error(e);
       }
-      if (!lastEditedTime)
-        lastEditedTime = block?.last_edited_time ? new Date(block.last_edited_time) : null
-
-      // Get Created Time
-      let createdTime: Date | null = null;
-      if (overrideCreatedTime) {
-        let timestamp = "";
-        try {
-          timestamp = getPagePropertyExtend(overrideCreatedTime, block, recordMap);
-        } catch (e) {
-          console.error(e);
-        }
-        createdTime = new Date(timestamp);
-        // If it's invalidDate, set to null
-        if (isNaN(createdTime.getTime())) {
-          console.log('OverrideCreatedTime:', overrideCreatedTime, '. Invalid createdTime: ', createdTime);
-          createdTime = null;
-        }
+      lastEditedTime = new Date(timestamp);
+      // If it's invalidDate, set to null
+      if (isNaN(lastEditedTime.getTime())) {
+        console.warn('overrideLastEditedTime:', overrideLastEditedTime, '. Invalid lastEditedTime: ', lastEditedTime);
+        lastEditedTime = null;
       }
-      if (!createdTime)
-        createdTime = block?.created_time ? new Date(block.created_time) : null
+    }
+    if (!lastEditedTime)
+      lastEditedTime = block?.last_edited_time ? new Date(block.last_edited_time) : null
 
-      // Get Page cover in `format.page_cover`
-      const pageCover = mapNotionImageUrl((block as PageBlock).format?.page_cover, block) || null
-
-      // Insert SlugName instead of PageId.
-      if (block) {
-        let slugName = getPageProperty('SlugName', block, recordMap)
-
-        if (slugName) {
-          canonicalPageId = slugName
-        }
+    // Get Created Time
+    let createdTime: Date | null = null;
+    if (overrideCreatedTime) {
+      let timestamp = NaN;
+      try {
+        timestamp = getPageProperty(overrideCreatedTime, block, recordMap);
+      } catch (e) {
+        console.error(e);
       }
-
-      const canonicalPageData: types.CanonicalPageData = {
-        pageID: pageId,
-        lastEditedTime,
-        createdTime,
-        title,
-        cover: pageCover,
+      createdTime = new Date(timestamp);
+      // If it's invalidDate, set to null
+      if (isNaN(createdTime.getTime())) {
+        console.warn('OverrideCreatedTime:', overrideCreatedTime, '. Invalid createdTime: ', createdTime);
+        createdTime = null;
       }
+    }
+    if (!createdTime)
+      createdTime = block?.created_time ? new Date(block.created_time) : null
 
-      console.log(canonicalPageData)
+    // Get Page cover in `format.page_cover`
+    const pageCover = mapImageUrl((block as PageBlock).format?.page_cover, block) || null
 
-      console.groupEnd()
+    // Insert SlugName instead of PageId.
+    if (block) {
+      const slugName = getPageProperty('SlugName', block, recordMap)
 
+      if (slugName) {
+        canonicalPageId = slugName as string
+      }
+    }
+
+    const canonicalPageData: types.CanonicalPageData = {
+      pageId: pageId,
+      lastEditedTime,
+      createdTime,
+      title,
+      cover: null,
+    }
+
+    if (typeof pageCover === 'string') {
+      const previewCover = await getPreviewImageHelper(pageCover);
+      canonicalPageData.cover = [pageCover, previewCover];
+    }
+
+    return [canonicalPageId, canonicalPageData];
+  }, { concurrency: 4 }))
+    .filter(v => v !== null)
+    .reduce((map, [canonicalPageId, canonicalPageData]: [string, types.CanonicalPageData]) => {
       if (map[canonicalPageId]) {
         console.error(
           'error duplicate canonical page id',
           canonicalPageId,
-          pageId,
+          canonicalPageData.pageId,
           map[canonicalPageId]
         )
 
         return map
-      } else {
-        return {
-          ...map,
-          [canonicalPageId]: canonicalPageData
-        }
       }
-    },
-    {}
-  )
+
+      map[canonicalPageId] = canonicalPageData;
+      return map;
+    }, {} as { [pageId: string]: types.CanonicalPageData })
+
+  console.log(canonicalPageMap)
+  console.groupEnd()
 
   return {
     pageMap,

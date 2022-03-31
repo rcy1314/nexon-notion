@@ -8,20 +8,9 @@ import { NotionPage } from 'components'
 export const getStaticProps = async ({ params }) => {
   const rawPageId = params.pageId as string
 
-  console.log('rawPageId', rawPageId)
 
   try {
-    if (rawPageId === 'sitemap.xml' || rawPageId === 'robots.txt' || rawPageId === 'feed.xml') {
-      return {
-        redirect: {
-          destination: `/api/${rawPageId}`
-        }
-      }
-    }
-
     const props = await resolveNotionPage(domain, rawPageId)
-
-    //console.log('props == ', props)
 
     return { props, revalidate: 10 }
   } catch (err) {

@@ -1,8 +1,9 @@
 import { CanonicalPageDataSerialized } from 'lib/types';
 import React, { FunctionComponent } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import cn from 'classnames';
 import utilStyles from 'styles/utils.module.css';
-import Link from 'next/link';
 import { parseISO, format } from 'date-fns';
 import Layout from './Layout';
 import Pagination from './Pagination';
@@ -39,7 +40,7 @@ const BlogCard: FunctionComponent<{
   className: string
 }> = ({ data, className }) => {
   return (
-    <Link href={`/${data.pageID}`}>
+    <Link href={`/${data.pageId}`}>
       <div
         className={
           cn(
@@ -56,17 +57,21 @@ const BlogCard: FunctionComponent<{
             )}
           ></div>
           {data.cover !== null ? (
-            <img
+            <Image
               className="z-50 w-full sm:rounded-t-lg"
               alt="blog card covor"
-              src={data.cover}
-            ></img>
+              placeholder="blur"
+              blurDataURL={data.cover[1].dataURIBase64}
+              width={data.cover[1].originalWidth}
+              height={data.cover[1].originalHeight}
+              src={data.cover[0]}
+            ></Image>
           ) : (
             <></>
           )}
         </div>
         <div className="flex flex-col justify-around px-5 py-3 sm:py-6 sm:px-10">
-          <Link href={`/${data.pageID}`}>
+          <Link href={`/${data.pageId}`}>
             <a className="">
               <div className="mb-2 text-2xl group-hover:text-red-600 dark:group-hover:text-red-300 transition duration-500 ease-in-out">
                 {data.title}
@@ -108,7 +113,7 @@ const BlogCardList: FunctionComponent<{
           <BlogCard
             className="my-8 hover:my-10"
             data={data}
-            key={data.pageID}
+            key={data.pageId}
           ></BlogCard>
         ))}
       </div>

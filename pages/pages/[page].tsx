@@ -1,3 +1,4 @@
+import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { isDev, domain } from 'lib/config'
 import { getSiteMaps } from 'lib/get-site-maps'

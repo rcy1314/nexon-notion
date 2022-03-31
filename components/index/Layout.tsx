@@ -6,10 +6,9 @@ import Header from './Header';
 import Footer from './Footer';
 import utilStyles from 'styles/utils.module.css';
 import { useState, useEffect } from 'react';
-import { socialImageSubtitle, socialImageTitle, name } from 'lib/config';
+import { description, name } from 'lib/config';
 import profileImage from 'public/images/profile.png'
 import goUpIcon from 'public/icons8-up-96.png'
-import { description } from 'site.config';
 
 const Name = (
   <>
@@ -22,7 +21,7 @@ const Name = (
   </>
 );
 
-export const siteTitle = socialImageSubtitle;
+export const siteTitle = description;
 
 type PropsType = {
   children: ReactNode;
@@ -68,7 +67,10 @@ const Layout: FunctionComponent<PropsType> = ({ children, home = false }) => {
               <Image
                 className={`z-10 absolute rounded-full shadow-sm bg-white dark:bg-grey-300 hover:shadow transition ease-in-out duration-500 focus:shadow-outline`}
                 src={profileImage}
-                alt={socialImageTitle}
+                placeholder="blur"
+                alt={name}
+                height="100"
+                width="100"
               />
             </a>
           </Link>
@@ -123,6 +125,7 @@ const Layout: FunctionComponent<PropsType> = ({ children, home = false }) => {
             <div className="p-2 rounded-full hover:animate-pulse">
               <Image
                 src={goUpIcon}
+                placeholder="blur"
                 width="18"
                 height="18"
               ></Image>
