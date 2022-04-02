@@ -67,6 +67,14 @@ body {
   margin-inline-end: 0;
 }
 
+.giscus, .giscus-frame {
+  width: 100%;
+}
+.giscus-frame {
+  border: none;
+  color-scheme: normal;
+}
+
 .static-tweet-emoji {
   height: 1.2em !important;
   width: 1.2em !important;

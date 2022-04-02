@@ -7,7 +7,7 @@ import styles from './Header.module.scss';
 import cn from 'classnames';
 // import classnames from 'classnames/bind';
 import { description } from 'lib/config'
-import useDarkMode from 'use-dark-mode'
+import useDarkMode from '@fisch0920/use-dark-mode'
 import profileImage from '../../public/images/profile.png'
 import darkIcon from '../../public/icons8-moon-and-stars-96.png'
 import lightIcon from '../../public/icons8-sun-96.png'

@@ -15,7 +15,6 @@ module.exports = withPlugins([[withBundleAnalyzer]], {
       'pbs.twimg.com',
       'abs.twimg.com',
       'transitivebullsh.it',
-      'www.baidu.com'
     ],
     formats: ['image/avif', 'image/webp'],
     dangerouslyAllowSVG: true,
