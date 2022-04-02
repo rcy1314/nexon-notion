@@ -40,7 +40,7 @@ const BlogCard: FunctionComponent<{
   className: string
 }> = ({ data, className }) => {
   return (
-    <Link href={`/${data.pageId}`}>
+    <Link href={`/${data.slugName}`}>
       <div
         className={
           cn(
@@ -71,7 +71,7 @@ const BlogCard: FunctionComponent<{
           )}
         </div>
         <div className="flex flex-col justify-around px-5 py-3 sm:py-6 sm:px-10">
-          <Link href={`/${data.pageId}`}>
+          <Link href={`/${data.slugName}`}>
             <a className="">
               <div className="mb-2 text-2xl group-hover:text-red-600 dark:group-hover:text-red-300 transition duration-500 ease-in-out">
                 {data.title}

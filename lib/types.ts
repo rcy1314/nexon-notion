@@ -56,7 +56,10 @@ export interface CanonicalPageMap {
 
 // All metadata (Notion Properties) goes here.
 export interface CanonicalPageData {
+  // uuid used by notion
   pageId: string
+  // same as canonicalPageId
+  slugName: string
   title: string
   createdTime: Date
   lastEditedTime: Date
@@ -64,7 +67,10 @@ export interface CanonicalPageData {
 }
 
 export interface CanonicalPageDataSerialized {
+  // raw page id from notion
   pageId: string
+  // same as canonicalPageId
+  slugName: string
   title: string
   createdTime: string
   lastEditedTime: string

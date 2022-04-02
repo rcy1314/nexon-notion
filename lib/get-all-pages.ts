@@ -101,6 +101,7 @@ export async function getAllPagesImpl(
 
     const canonicalPageData: types.CanonicalPageData = {
       pageId: pageId,
+      slugName: canonicalPageId,
       lastEditedTime,
       createdTime,
       title,
