@@ -5,15 +5,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Header.module.scss';
 import cn from 'classnames';
-// import classnames from 'classnames/bind';
 import { description } from 'lib/config'
 import useDarkMode from '@fisch0920/use-dark-mode'
+import { IoSunnyOutline, IoMoonSharp } from 'react-icons/io5'
 import profileImage from '../../public/images/profile.png'
-import darkIcon from '../../public/icons8-moon-and-stars-96.png'
-import lightIcon from '../../public/icons8-sun-96.png'
-// const cx = classnames.bind(styles);
 
 const Header: FunctionComponent = () => {
+
+  const [hasMounted, setHasMounted] = React.useState(false);
+
   const darkMode = useDarkMode(false, {
     onChange: (state: boolean) => {
       const htmlElement = document.documentElement;
@@ -26,6 +26,10 @@ const Header: FunctionComponent = () => {
       }
     }
   })
+
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, [])
 
   return (
     <div
@@ -54,32 +58,23 @@ const Header: FunctionComponent = () => {
           </a>
         </Link>
       </div>
-      <button
-        aria-label="Toggle Dark Mode"
-        className={cn('hover:animate-pulse')}
-        onClick={() => darkMode.toggle()}
-      >
-        {darkMode.value ? (
-          <Image
-            src={darkIcon}
-            width="24px"
-            height="24px"
-            layout="fixed"
-            placeholder="blur"
-            alt="Sun"
-            className="invert"
-          ></Image>
-        ) : (
-          <Image
-            src={lightIcon}
-            width="24px"
-            height="24px"
-            layout="fixed"
-            placeholder="blur"
-            alt="Moon and Stars"
-          ></Image>
-        )}
-      </button>
+      {
+        hasMounted ?
+          <button
+            aria-label="Toggle Dark Mode"
+            className={cn('hover:animate-pulse',)}
+            onClick={() => darkMode.toggle()}
+          >
+            {darkMode.value ? (
+              <IoMoonSharp
+                className='h-5 w-5'
+              />
+            ) : (
+              <IoSunnyOutline
+                className='h-5 w-5' />
+            )}
+          </button> : null
+      }
     </div>
   );
 };
