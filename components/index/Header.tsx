@@ -7,7 +7,7 @@ import styles from './Header.module.scss';
 import cn from 'classnames';
 import { description } from 'lib/config'
 import useDarkMode from '@fisch0920/use-dark-mode'
-import { IoSunnyOutline, IoMoonSharp } from 'react-icons/io5'
+import { IoMoonSharp, IoSunnyOutline } from 'react-icons/io5'
 import profileImage from '../../public/images/profile.png'
 
 const Header: FunctionComponent = () => {
@@ -67,11 +67,11 @@ const Header: FunctionComponent = () => {
           >
             {darkMode.value ? (
               <IoMoonSharp
-                className='h-5 w-5'
+                className='h-6 w-6'
               />
             ) : (
               <IoSunnyOutline
-                className='h-5 w-5' />
+                className='h-6 w-6' />
             )}
           </button> : null
       }

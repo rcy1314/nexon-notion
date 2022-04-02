@@ -8,7 +8,7 @@ import utilStyles from 'styles/utils.module.css';
 import { useState, useEffect } from 'react';
 import { description, name } from 'lib/config';
 import profileImage from 'public/images/profile.png'
-import goUpIcon from 'public/icons8-up-96.png'
+import { AiFillRocket } from 'react-icons/ai';
 
 const Name = (
   <>
@@ -123,12 +123,7 @@ const Layout: FunctionComponent<PropsType> = ({ children, home = false }) => {
             onClick={goToTop}
           >
             <div className="p-2 rounded-full hover:animate-pulse">
-              <Image
-                src={goUpIcon}
-                placeholder="blur"
-                width="18"
-                height="18"
-              ></Image>
+              <AiFillRocket className="text-red-500 dark:text-orange-500" />
             </div>
           </button>
         </div>
