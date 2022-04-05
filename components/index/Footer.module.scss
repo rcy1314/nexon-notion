@@ -66,6 +66,22 @@ $purple: #aa45ff;
   }
 }
 
-.content {
-  //background-color: #33333333;
+.twitter:hover {
+  color: #2795e9;
+}
+
+.zhihu:hover {
+  color: #0066ff;
+}
+
+.github:hover {
+  color: #c9510c;
+}
+
+.linkedin:hover {
+  color: #0077b5;
+}
+
+.social {
+  @apply mx-1 transition-all ease-in-out duration-300;
 }

@@ -143,7 +143,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
       comments = (
         <ReactGiscus darkMode={darkMode.value} />
       )
-    } 
+    }
     const tweet = getPageTweet(block, recordMap)
     if (tweet) {
       pageAside = <PageActions tweet={tweet} />

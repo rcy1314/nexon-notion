@@ -17,12 +17,12 @@ const Date: FunctionComponent<{
     last_modified_atString !== null ? parseISO(last_modified_atString) : null;
   return (
     <div className="transition ease-in-out duration-500 group-hover:text-blue-500 dark:text-white dark:group-hover:text-blue-400">
-      发布于
+      Published
       <time dateTime={dateString}> {format(date, 'LLLL d, yyyy')}</time>
       {last_modified_at !== null ? (
         <>
           <span className="mx-1">/</span>
-          更新于
+          Updated
           <time dateTime={last_modified_atString}>
             {' '}
             {format(last_modified_at, 'LLLL d, yyyy')}
