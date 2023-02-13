@@ -3,6 +3,7 @@ import * as React from 'react'
 import { FaEnvelopeOpenText } from '@react-icons/all-files/fa/FaEnvelopeOpenText'
 import { FaGithub } from '@react-icons/all-files/fa/FaGithub'
 import { FaLinkedin } from '@react-icons/all-files/fa/FaLinkedin'
+import { FaMastodon } from '@react-icons/all-files/fa/FaMastodon'
 import { FaRss } from '@react-icons/all-files/fa/FaRss'
 import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaYoutube } from '@react-icons/all-files/fa/FaYoutube'
@@ -37,7 +38,9 @@ export const FooterImpl: React.FC = () => {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.copyright}>Copyright {year} {config.author}</div>
+      <div className={styles.copyright}>
+        Copyright {year} {config.author}
+      </div>
 
       <div className={styles.settings}>
         {hasMounted && (
@@ -56,7 +59,7 @@ export const FooterImpl: React.FC = () => {
       <div className={styles.social}>
         <a
           className={styles.rss}
-          href="/feed.xml"
+          href='/feed.xml'
           target='_blank'
           rel='noopener noreferrer'
         >
@@ -71,6 +74,17 @@ export const FooterImpl: React.FC = () => {
             rel='noopener noreferrer'
           >
             <FaTwitter />
+          </a>
+        )}
+
+        {config.mastodon && (
+          <a
+            className={styles.mastodon}
+            href={config.mastodon}
+            title={`Mastodon ${config.getMastodonHandle()}`}
+            rel='me'
+          >
+            <FaMastodon />
           </a>
         )}
 

@@ -1,9 +1,18 @@
-import { getAllPagesInSpace, uuidToId, getPageProperty, getBlockTitle } from 'notion-utils'
+import {
+  getAllPagesInSpace,
+  getBlockTitle,
+  getPageProperty,
+  uuidToId
+} from 'notion-utils'
 import pMemoize from 'p-memoize'
 
 import * as config from './config'
 import * as types from './types'
-import { includeNotionIdInUrls, overrideCreatedTime, overrideLastEditedTime } from './config'
+import {
+  includeNotionIdInUrls,
+  overrideCreatedTime,
+  overrideLastEditedTime
+} from './config'
 import { getCanonicalPageId } from './get-canonical-page-id'
 import { notion } from './notion-api'
 
@@ -57,50 +66,62 @@ async function getAllPagesImpl(
       const title = getBlockTitle(block, recordMap)
 
       // Get public status (draft or not)
-      let publicPage = true;
+      let publicPage = true
       try {
-        publicPage = getPageProperty<boolean>('Public', block, recordMap);
+        publicPage = getPageProperty<boolean>('Public', block, recordMap)
         // Some page does not contain this property.
         if (publicPage == null) {
-          publicPage = true;
+          publicPage = true
         }
       } catch (e) {
-        console.error(e);
+        console.error(e)
       }
 
       // Get Last Edited Time
-      let lastEditedTime: Date | null = null;
+      let lastEditedTime: Date | null = null
       if (overrideLastEditedTime) {
-        let timestamp = NaN;
+        let timestamp = NaN
         try {
-          timestamp = getPageProperty(overrideLastEditedTime, block, recordMap);
+          timestamp = getPageProperty(overrideLastEditedTime, block, recordMap)
         } catch (e) {
-          console.error(e);
+          console.error(e)
         }
-        lastEditedTime = new Date(timestamp);
+        lastEditedTime = new Date(timestamp)
         // If it's invalidDate, set to null
         if (isNaN(lastEditedTime.getTime())) {
-          console.log('overrideLastEditedTime:', overrideLastEditedTime, '. Invalid lastEditedTime: ', lastEditedTime);
-          lastEditedTime = null;
+          console.log(
+            'overrideLastEditedTime:',
+            overrideLastEditedTime,
+            '. Invalid lastEditedTime: ',
+            lastEditedTime
+          )
+          lastEditedTime = null
         }
       }
       if (!lastEditedTime)
-        lastEditedTime = block?.last_edited_time ? new Date(block.last_edited_time) : null
+        lastEditedTime = block?.last_edited_time
+          ? new Date(block.last_edited_time)
+          : null
 
       // Get Created Time
-      let createdTime: Date | null = null;
+      let createdTime: Date | null = null
       if (overrideCreatedTime) {
-        let timestamp = NaN;
+        let timestamp = NaN
         try {
-          timestamp = getPageProperty(overrideCreatedTime, block, recordMap);
+          timestamp = getPageProperty(overrideCreatedTime, block, recordMap)
         } catch (e) {
-          console.error(e);
+          console.error(e)
         }
-        createdTime = new Date(timestamp);
+        createdTime = new Date(timestamp)
         // If it's invalidDate, set to null
         if (isNaN(createdTime.getTime())) {
-          console.log('OverrideCreatedTime:', overrideCreatedTime, '. Invalid createdTime: ', createdTime);
-          createdTime = null;
+          console.log(
+            'OverrideCreatedTime:',
+            overrideCreatedTime,
+            '. Invalid createdTime: ',
+            createdTime
+          )
+          createdTime = null
         }
       }
       if (!createdTime)
@@ -111,7 +132,7 @@ async function getAllPagesImpl(
         lastEditedTime,
         createdTime,
         title,
-        publicPage,
+        publicPage
       }
 
       console.log(pageId, canonicalPageData)

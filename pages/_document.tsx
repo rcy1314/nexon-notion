@@ -34,7 +34,7 @@ export default class MyDocument extends Document {
             />
           </Head>
 
-          <body className="white dark:bg-black dark:text-white">
+          <body className='white dark:bg-black dark:text-white'>
             <script
               dangerouslySetInnerHTML={{
                 __html: `

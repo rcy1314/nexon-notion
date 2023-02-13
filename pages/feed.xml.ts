@@ -1,24 +1,25 @@
 import { GetServerSideProps } from 'next'
-import RSS from 'rss';
 
-import { site, host, name, description, author } from '@/lib/config';
-import { getSiteMap } from '@/lib/get-site-map'
-import * as types from '@/lib/types'
-import * as config from '@/lib/config'
 import {
-  getBlockParentPage, uuidToId,
+  getBlockParentPage,
   getPageProperty,
-  idToUuid
-} from 'notion-utils';
-import { getCanonicalPageUrl } from '@/lib/map-page-url'
+  idToUuid,
+  uuidToId
+} from 'notion-utils'
+import RSS from 'rss'
+
+import * as config from '@/lib/config'
+import * as types from '@/lib/types'
+import { author, description, host, name, site } from '@/lib/config'
+import { getSiteMap } from '@/lib/get-site-map'
 import { getSocialImageUrl } from '@/lib/get-social-image-url'
-import { ExtendedRecordMap } from '@/lib/types';
+import { getCanonicalPageUrl } from '@/lib/map-page-url'
+import { ExtendedRecordMap } from '@/lib/types'
 
 const ttlMinutes = 24 * 60 // 24 hours
 const ttlSeconds = ttlMinutes * 60
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-
   if (req.method !== 'GET') {
     res.statusCode = 405
     res.setHeader('Content-Type', 'application/json')
@@ -45,12 +46,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     description,
     copyright: `${new Date().getFullYear()} ${author}`,
     webMaster: author,
-    ttl: ttlMinutes,
+    ttl: ttlMinutes
   })
 
   // For each siteMap, add all the posts to the feed.
   const pageMap = siteMap.canonicalPageMap
-  Object.keys(pageMap).map(pageURL => {
+  Object.keys(pageMap).map((pageURL) => {
     const pageData = pageMap[pageURL] as types.CanonicalPageData
 
     // Skip the root page.
@@ -86,14 +87,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       title: pageData.title,
       url,
       guid: pageData.pageId,
-      date: pageData.createdTime,
+      date: pageData.lastEditedTime
+        ? pageData.lastEditedTime
+        : pageData.createdTime
+        ? pageData.createdTime
+        : undefined,
       description,
       author,
       enclosure: socialImageUrl
         ? {
-          url: socialImageUrl,
-          type: 'image/jpeg'
-        }
+            url: socialImageUrl,
+            type: 'image/jpeg'
+          }
         : undefined
     })
   })

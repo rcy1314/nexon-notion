@@ -48,7 +48,7 @@ export interface SiteMap {
 }
 
 export interface CanonicalPageMap {
-  [canonicalPageId: string]: CanonicalPageData;
+  [canonicalPageId: string]: CanonicalPageData
 }
 
 // All metadata (Notion Properties) goes here.
@@ -58,7 +58,7 @@ export interface CanonicalPageData {
   createdTime: Date
   title: string
   // Indicate a draft if set to `false`.
-  publicPage: boolean,
+  publicPage: boolean
 }
 
 export interface PageUrlOverridesMap {

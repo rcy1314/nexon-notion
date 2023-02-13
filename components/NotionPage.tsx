@@ -6,7 +6,12 @@ import { useRouter } from 'next/router'
 
 import cs from 'classnames'
 import { PageBlock } from 'notion-types'
-import { formatDate, getBlockTitle, getPageProperty, normalizeTitle } from 'notion-utils'
+import {
+  formatDate,
+  getBlockTitle,
+  getPageProperty,
+  normalizeTitle
+} from 'notion-utils'
 import BodyClassName from 'react-body-classname'
 import { NotionRenderer } from 'react-notion-x'
 import TweetEmbed from 'react-tweet-embed'
@@ -26,8 +31,8 @@ import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
 import { PageAside } from './PageAside'
 import { PageHead } from './PageHead'
-import styles from './styles.module.css'
 import ReactGiscus from './ReactGiscus'
+import styles from './styles.module.css'
 
 // -----------------------------------------------------------------------------
 // dynamic imports for optional components
@@ -248,8 +253,8 @@ export const NotionPage: React.FC<types.PageProps> = ({
 
   const socialImage = mapImageUrl(
     getPageProperty<string>('Social Image', block, recordMap) ||
-    (block as PageBlock).format?.page_cover ||
-    config.defaultPageCover,
+      (block as PageBlock).format?.page_cover ||
+      config.defaultPageCover,
     block
   )
 
@@ -261,9 +266,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
 
   // only display comments and page actions on blog post pages
   if (isBlogPost && config.giscusConfig.valid()) {
-    comments = (
-      <ReactGiscus darkMode={isDarkMode} />
-    )
+    comments = <ReactGiscus darkMode={isDarkMode} />
   }
   return (
     <>

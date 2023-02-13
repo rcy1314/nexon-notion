@@ -40,6 +40,19 @@ const getNavigationLinkPages = pMemoize(
 export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
   let recordMap = await notion.getPage(pageId)
 
+  if (recordMap && recordMap["signed_urls"]) {
+    const signed_urls = recordMap["signed_urls"]
+    const new_signed_urls = {}
+    for (const p in signed_urls) {
+      if (signed_urls[p] && signed_urls[p].includes(".amazonaws.com/")) {
+        console.log("skip : " + signed_urls[p])
+        continue
+      }
+      new_signed_urls[p] = signed_urls[p]
+    }
+    recordMap["signed_urls"] = new_signed_urls
+  }
+
   if (navigationStyle !== 'default') {
     // ensure that any pages linked to in the custom navigation header have
     // their block info fully resolved in the page record map so we know
@@ -57,7 +70,7 @@ export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
 
   if (isPreviewImageSupportEnabled) {
     const previewImageMap = await getPreviewImageMap(recordMap)
-    ;(recordMap as any).preview_images = previewImageMap
+      ; (recordMap as any).preview_images = previewImageMap
   }
 
   return recordMap

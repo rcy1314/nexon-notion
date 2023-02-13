@@ -1,5 +1,6 @@
-import * as types from './types'
 import { GiscusProps } from '@giscus/react'
+
+import * as types from './types'
 
 export interface SiteConfig {
   rootNotionPageId: string
@@ -18,6 +19,7 @@ export interface SiteConfig {
   newsletter?: string
   youtube?: string
   zhihu?: string
+  mastodon?: string
 
   defaultPageIcon?: string | null
   defaultPageCover?: string | null
